@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const ExpressError = require("../expressError")
 const db = require("../db")
+const slugify = require("slugify")
 
 router.get("/", async function(req, res, next) {
     try {
@@ -21,7 +22,8 @@ router.get("/", async function(req, res, next) {
       if (busQuery.rows.length === 0) {
         throw new ExpressError(`Can't find company ${companyCode}`, 404);
       }
-      return res.json({ company: busQuery.rows[0] });
+      const invQuery = await db.query('select * from invoices where comp_code = $1', [companyCode]);
+      return res.json({ company: busQuery.rows[0], invoices: invQuery.rows });
     } catch(err){
       return next(err);
     }
@@ -29,7 +31,8 @@ router.get("/", async function(req, res, next) {
 
   router.post("/", async function(req, res, next) {
     try {
-      const {code, name, description} = req.body;
+      const {name, description} = req.body;
+      const code = slugify(name, "_");
       const results = await db.query('INSERT INTO companies (code, name, description) VALUES ($1, $2, $3)RETURNING code, name, description', [code, name, description]);
       return res.status(201).json({company: results.rows[0]});
     }

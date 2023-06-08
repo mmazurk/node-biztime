@@ -7,7 +7,8 @@ let DB_URI = "postgresql:///biztime";
 
 // I think this works on Mac
 let db = new Client({
-    host: "/tmp",
+    // host: "/tmp",
+    host: "localhost",
     database: "biztime"
   })
 
