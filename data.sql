@@ -36,13 +36,15 @@ CREATE TABLE industries_companies (
 INSERT INTO companies
   VALUES ('apple', 'Apple Computer', 'Maker of OSX.'),
          ('ibm', 'IBM', 'Big blue.'),
-         ('mdm', 'MDM Consulting', 'A crappy company.');
+         ('mdm', 'MDM Consulting', 'A boring company.');
 
 INSERT INTO invoices (comp_code, amt, paid, paid_date)
   VALUES ('apple', 100, false, null),
          ('apple', 200, false, null),
          ('apple', 300, true, '2018-01-01'),
-         ('ibm', 400, false, null);
+         ('ibm', 400, false, null),
+         ('mdm', 300, false, null),
+         ('mdm', 500, false, null);
 
 INSERT INTO industries
   VALUES  ('tech', 'Companies specializing in computer technology'),

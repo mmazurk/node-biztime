@@ -49,8 +49,9 @@ router.post("/", async function(req, res, next) {
       const {id} = req.params;
       const {amt, paid} = req.body;
 
-      const paidQuery = await db.query('select paid from invoices where id = $1', [id]);
+      const paidQuery = await db.query('select paid, paid_date from invoices where id = $1', [id]);
       const paidStatus = paidQuery.rows[0].paid;
+      const currPaidDate = paidQuery.rows[0].paid_date;
 
       if (!paidStatus && paid) {
         paidDate = new Date();
